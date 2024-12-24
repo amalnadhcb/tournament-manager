@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Organizer Dashboard</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            transition: transform 0.2s;
+        }
+
+        li:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .tournament-name {
+            font-weight: bold;
+            color: #2980b9;
+        }
+
+        .tournament-dates {
+            color: #7f8c8d;
+        }
+
+        .add-tournament {
+            display: inline-block; /* Keep it inline */
+            margin: 20px 0; /* Space above and below */
+            padding: 5px 10px; /* Smaller padding for a compact button */
+            background-color: #2980b9;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            position: absolute; /* Position it absolutely */
+            top: 20px; /* Distance from the top */
+            left: 20px; /* Distance from the left */
+            font-size: 14px; /* Smaller font size */
+            border: none; /* Remove border */
+            cursor: pointer; /* Change cursor to pointer */
+        }
+        .add-tournament:hover {
+            background-color: #1a5276;
+        }
+    </style>
+</head>
+<body>
+    <h1>Organizer Dashboard</h1>
+
+    <a href="{% url 'add_tournament' %}" class="add-tournament">Add Tournament</a>
+    <h2>Available Tournaments</h2>
+    
+    <ul>
+        {% for tournament in tournaments %}
+            <li>
+                <a href="{% url 'tournament_detail' tournament.id %}" class="tournament-name">{{ tournament.name }}</a> 
+                <span class="tournament-dates">({{ tournament.start_date }} - {{ tournament.end_date }})</span>
+            </li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>

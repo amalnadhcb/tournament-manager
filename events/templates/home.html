@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Tournament Manager</title>
+    {% load static %}  <!-- Load static files -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure the body takes at least the full height of the viewport */
+            color: #333;
+            position: relative; /* Position relative for absolute positioning of background */
+            overflow: hidden; /* Prevent overflow */
+            background-image: url("{% static 'images/empty-sports-stadium.webp' %}"); /* Replace with your image path */
+            background-size: cover; /* Cover the entire viewport */
+            background-position: center; /* Center the background image */
+        }
+
+        header {
+            background: rgba(0, 123, 255, 0.8); /* Semi-transparent background */
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .navbar {
+            background: rgba(0, 123, 255, 0.9); /* Navbar background */
+            padding: 10px 0;
+            display: flex; /* Use flexbox for navbar */
+            justify-content: center; /* Center the links */
+            flex-wrap: wrap; /* Allow links to wrap to the next line if necessary */
+            position: relative; /* Position relative for dropdown */
+        }
+
+        .navbar a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: white; /* Link color */
+            font-weight: bold;
+            transition: color 0.3s; /* Smooth color transition */
+        }
+
+        .navbar a:hover {
+            color: #ffcc00; /* Change color on hover */
+        }
+
+        /* Dropdown styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: rgba(0, 123, 255, 0.9);
+            min-width: 160px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ffcc00; /* Change background on hover */
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block; /* Show dropdown on hover */
+        }
+
+        .main-content {
+            flex: 1; /* Allow the main content to grow and take available space */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center items horizontally */
+            justify-content: center; /* Center items vertically */
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 20px auto; /* Center the main content */
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background: rgba(0, 123, 255, 0.8); /* Semi-transparent background */
+            color: white;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Tournament Manager</h1>
+    </header>
+    <nav class="navbar">
+        
+        <div class="dropdown">
+            <a href="#">Login</a>
+            <div class="dropdown-content">
+                <a href="{% url 'login' %}">Login as Player</a>
+                <a href="{% url 'loginorg' %}">Login as Organization</a>
+            </div>
+        </div>
+        <a href="{% url 'contact_us' %}">Contact Us</a>
+        <a href="{% url 'info' %}">Info</a>
+        <a href="{% url 'results' %}">Results</a>
+          <!-- New link added here -->
+    </nav>
+
+    <div class="main-content">
+        <h2>Your Tournaments at a Glance</h2>
+        <p>Welcome to the Tournament Manager. Here you can manage your tournaments efficiently.</p>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Tournament Manager. All rights reserved.</p>
+    </footer>
+</body>
+</html>

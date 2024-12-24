@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Team Profile</title>
+</head>
+<body>
+    <h1>{{ team.name }}'s Profile</h1>
+    <h2>Players:</h2>
+    <ul>
+        {% for player in team.players.all %}
+            <li><a href="{% url 'player_profile' player.id %}">{{ player.name }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

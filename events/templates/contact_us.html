@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us </title>
+    {% load static %}
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+            background-image: url('{% static "images/sports1.jpg" %}'); /* Ensure this path is correct */
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Change to flex-start to move content to the top */
+            height: 100vh;
+            text-align: center;
+            position: relative; /* Added for positioning the dropdown */
+            padding-top: 50px; /* Add padding to move content down a bit */
+        }
+
+        h1 {
+            font-size: 3em; /* Increased font size */
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.5em; /* Increased font size */
+            margin-bottom: 30px;
+        }
+
+        .dropdown {
+            position: absolute; /* Positioning the dropdown */
+            top: 20px; /* Distance from the top */
+            left: 20px; /* Distance from the left */
+        }
+
+        .dropbtn {
+            background-color: transparent;
+            color: white;
+            font-size: 1.5em; /* Increased font size */
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.8);
+            min-width: 160px;
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: white; /* Ensured links are white */
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 1.2em; /* Increased font size */
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ffcc00; /* Change color on hover */
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block; /* Show dropdown on hover */
+        }
+
+        .social-media {
+            display: flex; /* Use flexbox for even spacing */
+            justify-content: center; /* Center the links */
+            font-size: 1.5em; /* Increased font size */
+            margin: 20px 0; /* Added margin for spacing */
+        }
+
+        .social-media a {
+            color: white; /* Changed color to white for better visibility */
+            margin: 0 15px; /* Added margin for spacing */
+        }
+
+        footer {
+            position: absolute; /* Positioning the footer */
+            bottom: 20px; /* Distance from the bottom */
+            width: 100%; /* Full width */
+            text-align: center; /* Centered text */
+            font-size: 1em; /* Increased font size */
+            color: white;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.5em; /* Adjusted for smaller screens */
+            }
+
+            p {
+                font-size: 1.2em; /* Adjusted for smaller screens */
+            }
+
+            .dropbtn {
+                font-size: 1.2em; /* Adjusted for smaller screens */
+            }
+
+            .dropdown-content a {
+                font-size: 1em; /* Adjusted for smaller screens */
+            }
+
+            .social-media {
+                font-size: 1.2em; /* Adjusted for smaller screens */
+            }
+
+            footer {
+                font-size: 0.9em; /* Adjusted for smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dropdown">
+        <button class="dropbtn">Menu</button>
+        <div class="dropdown-content">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'register' %}">Register</a>
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'info' %}">About Us</a> <!-- Add more links as needed -->
+            <a href="{% url 'contact_us' %}">Contact Us</a>
+        </div>
+    </div>
+    
+    <h1>Contact Us</h1>
+    <p>For inquiries, please email us at <a href="mailto:exam.adhithhyan@gmail.com" style="color: #ffcc00;">Mail us</a></p>
+    
+    <div class="social-media">
+        <a href="https://www.facebook.com" target="_blank">Facebook</a>
+        <a href="https://www.twitter.com " target="_blank">Twitter</a>
+        <a href="https://www.instagram.com" target="_blank">Instagram</a>
+        <a href="https://www.linkedin.com" target="_blank">LinkedIn</a>
+    </div>
+
+    <footer>
+        <p>Not registered? <a href="{% url 'register' %}" style="color: #ffcc00;">Sign up here</a> | <a href="{% url 'login' %}" style="color: #ffcc00;">Login</a></p>
+    </footer>
+</body>
+</html>

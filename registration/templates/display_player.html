@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registered Players</title>
+</head>
+<body>
+    <h1>Registered Players</h1>
+    <ul>
+        {% for player in players %}
+            <li>{{ player.username }} - {{ player.email }} - {{ player.studio_associato }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

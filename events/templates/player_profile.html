@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ player.name }}'s Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+        }
+        .profile-container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        .profile-info {
+            margin: 20px 0;
+        }
+        .profile-info p {
+            margin: 5px 0;
+        }
+        .logout {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <h1>{{ player.name }}'s Profile</h1>
+        <div class="profile-info">
+            <p><strong>Age:</strong> {{ player.age }}</p>
+            <p><strong>Email:</strong> {{ player.user.email }}</p>
+            <p><strong>Team:</strong> {{ player.team.name if player.team else 'No team assigned' }}</p>
+            <p><strong>Game:</strong> {{ player.game }}</p>
+            <p><strong>Weight:</strong> {{ player.weight }}</p>
+            <p><strong>Category:</strong> {{ player.category }}</p>
+        </div>
+        <div class="logout">
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
+    </div>
+</body>
+</html>

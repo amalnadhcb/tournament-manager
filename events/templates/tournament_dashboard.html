@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tournament Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f0f0; /* Light background */
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            background-color: #3c3b6e; /* Dark blue */
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            border-bottom: 5px solid #b22234; /* Red */
+        }
+        h1 {
+            margin: 0;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #ffffff; /* White */
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            border: 2px solid #b22234; /* Red */
+            transition: background-color 0.3s;
+        }
+        li:hover {
+            background-color: #e0f7fa; /* Light blue on hover */
+        }
+        a {
+            text-decoration: none;
+            color: #b22234; /* Red */
+            font-weight: bold;
+        }
+        a:hover {  
+            text-decoration: underline;
+        }
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .usa-motif {
+            background-image: url('https://example.com/usa-motif.png'); /* Replace with a real image URL */
+            background-size: cover;
+            height: 100px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Tournament Dashboard</h1>
+    </header>
+    <div class="italian-motif"></div> <!-- Optional Italian motif -->
+    <ul>
+        {% for tournament in tournaments %}
+            <li>
+                <a href="{% url 'tournament_detail' tournament.id %}">{{ tournament.name }}</a> 
+                ({{ tournament.start_date }} - {{ tournament.end_date }})
+            </li>
+        {% endfor %}
+    </ul>
+    <footer>
+        <p>Powered by </p>
+    </footer>
+</body>
+</html>
