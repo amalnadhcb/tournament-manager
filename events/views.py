@@ -3,7 +3,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import Tournament, Team, Player
+from .models import Tournament, Team, Player,PlayerRegistration
 
 def home(request):
     return render(request, 'home.html')
@@ -32,18 +32,22 @@ def register(request):
         weight = request.POST['weight']
         category = request.POST['category']
 
-        if User.objects.filter(username=username).exists():
-            messages.error(request, 'Username already exists.')
-            return render(request, 'register.html')
+        # Create a new player instance and save it to the database
+        player = Player.objects.create(
+            username=username,
+            password=password,
+            name=name,
+            email=email,
+            age=age,
+            game=game,
+            weight=weight,
+            category=category
+        )
+        player.save()
 
-        user = User.objects.create_user(username=username, password=password, email=email)
-        user.first_name = name
-        user.save()
-
-        Player.objects.create(user=user, name=name, age=age, game=game, weight=weight, category=category)
-        messages.success(request, 'Registration successful! Please log in.')
-        return redirect('login')
-    return render(request, 'register.html')
+        # Login the player
+        login(request, player)
+        return redirect('tournament_dashboard')
 
 @login_required
 def player_profile(request):
@@ -140,3 +144,86 @@ def tournament_detail(request, id):
 def results_view(request):
     # Your logic here
     return render(request, 'results.html')
+
+from .models import Tournament
+
+def tournament_registration(request):
+    try:
+        player = request.user.player
+    except Player.DoesNotExist:
+        player = Player.objects.create(user=request.user)
+        player.save()
+
+    # Populate the player object with the user's data
+    player.name = request.user.username
+    player.email = request.user.email
+    # Add other fields as needed
+
+    tournament_id = request.GET.get('tournament_id')
+    if tournament_id:
+        tournament = Tournament.objects.get(id=tournament_id)
+        return render(request, 'tournament_registration.html', {
+            'tournament': tournament,
+            'player': player
+        })
+        
+def registered_players(request):
+    players = PlayerRegistration.objects.all()
+    return render(request, 'registered_players.html', {'players': players})
+
+def tournament_registration(request):
+    try:
+        player = request.user.player
+    except Player.DoesNotExist:
+        player = Player.objects.create(user=request.user)
+        player.save()
+
+    # Populate the player object with the user's data
+    player.name = request.user.username
+    player.email = request.user.email
+    # Add other fields as needed
+
+    tournament_id = request.GET.get('tournament_id')
+    if tournament_id:
+        tournament = Tournament.objects.get(id=tournament_id)
+        if request.method == 'POST':
+            # Handle the form submission
+            player_name = request.POST['name']
+            player_email = request.POST['email']
+            player_age = request.POST['age']
+            player_game = request.POST['game']
+            player_weight_category = request.POST['weight-category']
+
+            # Create a new PlayerRegistration instance and save it to the database
+            player_registration = PlayerRegistration.objects.create(
+                tournament=tournament,
+                player_name=player_name,
+                player_email=player_email,
+                player_age=player_age,
+                player_game=player_game,
+                player_weight_category=player_weight_category
+            )
+            player_registration.save()
+
+            # Return a success message or redirect to a new page
+            return render(request, 'tournament_registration_success.html')
+        else:
+            # Return the tournament registration form
+            return render(request, 'tournament_registration.html', {
+                'tournament': tournament,
+                'player': player
+            })
+    else:
+        # Return the tournament registration form
+        return render(request, 'tournament_registration.html')
+    
+    
+    
+def registered_players(request):
+    tournament_id = request.GET.get('tournament_id')
+    if tournament_id:
+        tournament = Tournament.objects.get(id=tournament_id)
+        players = PlayerRegistration.objects.filter(tournament=tournament)
+        return render(request, 'registered_players.html', {'players': players})
+    else:
+        return render(request, 'registered_players.html', {'players': PlayerRegistration.objects.all()})

@@ -68,7 +68,7 @@
     <ul>
         {% for tournament in tournaments %}
             <li>
-                <a href="{% url 'tournament_detail' tournament.id %}">{{ tournament.name }}</a> 
+                <a href="{% url 'tournament_registration' %}?tournament_id={{ tournament.id }}">{{ tournament.name }}</a> 
                 ({{ tournament.start_date }} - {{ tournament.end_date }})
             </li>
         {% endfor %}
