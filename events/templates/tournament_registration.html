@@ -47,30 +47,27 @@
 </head>
 <body>
     <div class="container">
-        <h1>Tournament Registration: {{ tournament.name }}</h1>
-        <p>Tournament Dates: {{ tournament.start_date }} - {{ tournament.end_date }}</p>
-        <form>
+        <form action="{% url 'tournament_registration' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="tournament_id" value="{{ tournament.id }}">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" value="{{ request.user.username }}" required>
-        
+                
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" value="{{ player.email }}" required>
-        
+                
             <label for="age">Age:</label>
             <input type="number" id="age" name="age" value="{{ player.age }}" required>
-        
-            <label for="game">Game:</label>
-            <select id="game" name="game" required>
-                <option value="{{ player.game }}">{{ player.game }}</option>
-                <!-- Add more options as needed -->
-            </select>
-        
+                
             <label for="weight-category">Weight Category:</label>
             <select id="weight-category" name="weight-category" required>
-                <option value="{{ player.category }}">{{ player.category }}</option>
-                <!-- Add more options as needed -->
+                <option value="">Select Weight Category</option>
+                <option value="Lightweight">Lightweight (up to 60 kg)</option>
+                <option value="Middleweight">Middleweight (61-80 kg)</option>
+                <option value="Heavyweight">Heavyweight (81-100 kg)</option>
+                <option value="Super Heavyweight">Super Heavyweight (over 100 kg)</option>
             </select>
-        
+                
             <button type="submit">Register</button>
         </form>
     </div>

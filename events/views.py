@@ -145,32 +145,17 @@ def results_view(request):
     # Your logic here
     return render(request, 'results.html')
 
-from .models import Tournament
 
-def tournament_registration(request):
-    try:
-        player = request.user.player
-    except Player.DoesNotExist:
-        player = Player.objects.create(user=request.user)
-        player.save()
-
-    # Populate the player object with the user's data
-    player.name = request.user.username
-    player.email = request.user.email
-    # Add other fields as needed
-
-    tournament_id = request.GET.get('tournament_id')
-    if tournament_id:
-        tournament = Tournament.objects.get(id=tournament_id)
-        return render(request, 'tournament_registration.html', {
-            'tournament': tournament,
-            'player': player
-        })
-        
 def registered_players(request):
     players = PlayerRegistration.objects.all()
     return render(request, 'registered_players.html', {'players': players})
 
+from .models import Tournament
+from django.views.decorators.csrf import csrf_protect
+
+@csrf_protect
+        
+
 def tournament_registration(request):
     try:
         player = request.user.player
@@ -183,7 +168,7 @@ def tournament_registration(request):
     player.email = request.user.email
     # Add other fields as needed
 
-    tournament_id = request.GET.get('tournament_id')
+    tournament_id = request.POST.get('tournament_id')
     if tournament_id:
         tournament = Tournament.objects.get(id=tournament_id)
         if request.method == 'POST':
@@ -191,7 +176,6 @@ def tournament_registration(request):
             player_name = request.POST['name']
             player_email = request.POST['email']
             player_age = request.POST['age']
-            player_game = request.POST['game']
             player_weight_category = request.POST['weight-category']
 
             # Create a new PlayerRegistration instance and save it to the database
@@ -200,13 +184,12 @@ def tournament_registration(request):
                 player_name=player_name,
                 player_email=player_email,
                 player_age=player_age,
-                player_game=player_game,
                 player_weight_category=player_weight_category
             )
             player_registration.save()
 
-            # Return a success message or redirect to a new page
-            return render(request, 'tournament_registration_success.html')
+            # Return a redirect response to the tournament dashboard page
+            return redirect('tournament_dashboard')
         else:
             # Return the tournament registration form
             return render(request, 'tournament_registration.html', {
@@ -216,8 +199,6 @@ def tournament_registration(request):
     else:
         # Return the tournament registration form
         return render(request, 'tournament_registration.html')
-    
-    
     
 def registered_players(request):
     tournament_id = request.GET.get('tournament_id')
