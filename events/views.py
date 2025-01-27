@@ -208,3 +208,93 @@ def registered_players(request):
         return render(request, 'registered_players.html', {'players': players})
     else:
         return render(request, 'registered_players.html', {'players': PlayerRegistration.objects.all()})
+
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+
+@login_required
+def player_profile(request):
+    user = request.user
+    return render(request, 'player_profile.html', {'user': user})
+
+
+
+
+
+
+
+import random
+import math
+from django.shortcuts import render
+
+def get_player_data(players):
+    return [{'name': player.player_name, 'email': player.player_email, 'age': player.player_age, 'weight_category': player.player_weight_category} for player in players]
+
+import random
+
+def generate_knockout_fixtures(players):
+    num_players = len(players)
+    if num_players < 2:
+        raise ValueError("Not enough players to generate a knockout fixture")
+
+    # Shuffle the players to randomize the order
+    random.shuffle(players)
+
+    # Create a list to store the fixtures
+    fixtures = []
+
+    # Loop through the players and create fixtures
+    while len(players) > 1:
+        round_fixtures = []
+        for i in range(len(players) // 2):
+            player1 = players[i]
+            player2 = players[len(players) - i - 1]
+            round_fixtures.append((player1, player2))
+        fixtures.append(round_fixtures)
+        # Update the players list for the next round
+        players = [player1 for player1, player2 in round_fixtures]
+
+    return fixtures
+
+def fixtures(request):
+    players = PlayerRegistration.objects.all()
+    player_data = [{'name': player.player_name, 'email': player.player_email} for player in players]
+    try:
+        knockout_fixtures = generate_knockout_fixtures(player_data)
+    except ValueError as e:
+        return render(request, 'fixtures.html', {'error': str(e)})
+
+    return render(request, 'fixtures.html', {'knockout_fixtures': knockout_fixtures})
+
+def generate_fixtures(request, tournament_id):
+    tournament = Tournament.objects.get(id=tournament_id)
+    players = PlayerRegistration.objects.filter(tournament=tournament)
+    player_data = [{'name': player.player_name, 'email': player.player_email} for player in players]
+    try:
+        knockout_fixtures = generate_knockout_fixtures(player_data)
+    except ValueError as e:
+        return render(request, 'fixtures.html', {'error': str(e)})
+
+    return render(request, 'fixtures.html', {'knockout_fixtures': knockout_fixtures})
+
+# events/views.py
+from django.http import HttpResponse
+from django.views.decorators.http import require_http_methods
+
+@require_http_methods(['POST'])
+def update_winner(request):
+    winner = request.POST.get('winner')
+    match = request.POST.get('match')
+    # Update the winner in the database
+    # ...
+    # Generate the updated Round 2 matches
+    round2_matches = generateRound2Matches(winner)
+    return HttpResponse(round2_matches)
+
+def generateRound2Matches(winner):
+    # Generate the updated Round 2 matches based on the winner
+    # ...
+    return '<li>' + winner + ' vs TBD</li>'
+    
